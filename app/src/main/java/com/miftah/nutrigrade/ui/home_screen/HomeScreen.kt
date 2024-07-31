@@ -41,7 +41,6 @@ fun HomeScreen(
                 Image(painter = painterResource(id = R.drawable.news_image) , contentDescription = "image",modifier.fillMaxWidth() )
                 Spacer(modifier = Modifier.width(16.dp))
                 Image(painter = painterResource(id = R.drawable.news_image3) , contentDescription = "image",modifier.fillMaxWidth() )
-
             }
         }
         Text("Riwayat Pemindaian")

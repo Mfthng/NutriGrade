@@ -99,32 +99,7 @@ fun DetailScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp, vertical = 4.dp),
                 onClick = {
-                    val data = Scanned(
-                        productName = "a",
-                        dietaryFiber100g = 1,
-                        positiveFeedback = "s",
-                        protein100g = 1,
-                        totalFat100g = 2,
-                        dietaryFiber = 3,
-                        totalCarbs = 1,
-                        productPhoto = "1",
-                        nutriScore = 1,
-                        cholesterol = 1,
-                        portionSize = 1,
-                        sugars100g = 1,
-                        warnings = "",
-                        sodium100g = 1,
-                        energy100g = 1,
-                        totalCarbs100g = 1,
-                        totalFat = 1,
-                        grade = "",
-                        energy = 1,
-                        sugars = 1,
-                        sodium = 1,
-                        portionSize100g = "",
-                        protein = 1
-                    )
-                    onEvent(DetailEvent.SaveTODB(data))
+                    onEvent(DetailEvent.SaveTODB(state.scanned!!))
                     navigate()
                 }) {
                 Text(text = "Save To DB")
@@ -140,22 +115,14 @@ fun DetailScreen(
                         .fillMaxWidth()
                         .height(IntrinsicSize.Max)
                 ) {
-                    /*Image(
-                        modifier = Modifier
-                            .height(170.dp)
-                            .fillMaxWidth(),
-                        painter = painterResource(id = R.drawable.sampel),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
-                    )*/
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(state.scanned!!.productPhoto)
-                            .crossfade(true)
                             .build(),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.clip(CircleShape)
+                        modifier = Modifier
+                            .height(170.dp)
                     )
                     IconButton(
                         modifier = Modifier
@@ -182,7 +149,11 @@ fun DetailScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(state.scanned!!.productName, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+                    Text(
+                        state.scanned!!.productName,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp
+                    )
                     Text(state.scanned.portionSize.toString())
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -207,11 +178,6 @@ fun DetailScreen(
                         Row(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-//                        CircularProgressIndicator(
-//                            modifier = Modifier.width(60.dp),
-//                            color = MaterialTheme.colorScheme.secondary,
-//                            trackColor = MaterialTheme.colorScheme.surfaceVariant,
-//                        )
                             CardGrade(value = state.scanned!!.grade)
                             Spacer(modifier = Modifier.width(16.dp))
                             Text(
@@ -232,7 +198,6 @@ fun DetailScreen(
                             RoundedCornerShape(8.dp)
                         )
                         .background(GreenPrimary)
-
                         .padding(8.dp),
                     contentAlignment = Alignment.Center
                 ) {
@@ -307,13 +272,12 @@ fun DetailScreen(
                         CustomLinearProgressIndicator(
                             progressColor = GulaBg,
                             progress = 0.1f,
-                            )
+                        )
                     }
                 }
             }
         }
-        Text("Batas Komsumsi Harian")
-        
+
     }
 
 
@@ -347,8 +311,8 @@ fun CustomLinearProgressIndicator(
 }
 
 data class GradeClass(
-    val grade : String,
-    val text : String
+    val grade: String,
+    val text: String
 )
 
 
