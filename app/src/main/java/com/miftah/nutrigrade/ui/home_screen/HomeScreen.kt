@@ -37,12 +37,12 @@ fun HomeScreen(modifier: Modifier = Modifier) {
            item {
                Image(painter = painterResource(id = R.drawable.news_image) , contentDescription = "image",modifier.fillMaxWidth() )
                Spacer(modifier = Modifier.width(16.dp))
-               Image(painter = painterResource(id = R.drawable.news_image) , contentDescription = "image",modifier.fillMaxWidth() )
-
+               Image(painter = painterResource(id = R.drawable.news_image3) , contentDescription = "image",modifier.fillMaxWidth() )
            }
         }
+        Spacer(modifier = Modifier.height(16.dp))
         Text("Riwayat Pemindaian")
-       LazyColumn(
+        LazyColumn(
            verticalArrangement = Arrangement.spacedBy(16.dp)
        ) {
            item {

@@ -59,6 +59,9 @@ dependencies {
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.view)
 
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
+
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.hilt.android.compiler)
     ksp(libs.dagger.hilt.compiler)
@@ -66,6 +69,7 @@ dependencies {
     implementation(libs.androidx.room)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.lottie.compose)
 
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
