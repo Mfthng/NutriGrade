@@ -36,7 +36,6 @@ fun HomeScreen(
         LazyRow(
             modifier = Modifier.padding(vertical = 12.dp)
         ) {
-
             item {
                 Image(painter = painterResource(id = R.drawable.news_image) , contentDescription = "image",modifier.fillMaxWidth() )
                 Spacer(modifier = Modifier.width(16.dp))
