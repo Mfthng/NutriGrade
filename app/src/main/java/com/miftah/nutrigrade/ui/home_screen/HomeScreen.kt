@@ -49,10 +49,16 @@ fun HomeScreen(
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(items = data, key = {it.id}){
+                    /*items(items = data, key = {it.id}){
                         CardBox(
                             productName = it.productName,
                             gradeResult = it.grade,
+                        )
+                    }*/
+                    item{
+                        CardBox(
+                            productName = "Susu",
+                            gradeResult = "C",
                         )
                     }
                 }

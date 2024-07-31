@@ -71,7 +71,7 @@ fun CardBox(
                       .padding(12.dp))
 
               {
-                  Text("Chitato" , fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+                  Text(productName , fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
                   Spacer(modifier = Modifier.height(8.dp))
 
                   Row(
