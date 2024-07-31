@@ -24,6 +24,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,13 +36,23 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.miftah.nutrigrade.R
+import com.miftah.nutrigrade.ui.home_screen.CardGrade
 import com.miftah.nutrigrade.ui.navgraph.Route
+import com.miftah.nutrigrade.ui.theme.CarboBg
+import com.miftah.nutrigrade.ui.theme.GaramBg
+import com.miftah.nutrigrade.ui.theme.GreenPrimary
+import com.miftah.nutrigrade.ui.theme.GulaBg
+import com.miftah.nutrigrade.ui.theme.LemakBg
 import com.miftah.nutrigrade.ui.theme.NutriGradeTheme
+import com.miftah.nutrigrade.ui.theme.ProteinBg
+import com.miftah.nutrigrade.ui.theme.SeratBg
 
 @Composable
 fun DetailScreen(
@@ -58,7 +69,7 @@ fun DetailScreen(
                     modifier = Modifier
                         .height(170.dp)
                         .fillMaxWidth(),
-                    painter = painterResource(id = R.drawable.image_dummy),
+                    painter = painterResource(id = R.drawable.sampel),
                     contentDescription = null,
                     contentScale = ContentScale.Crop
                 )
@@ -87,7 +98,7 @@ fun DetailScreen(
                 modifier  = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
-                Text("Good Day")
+                Text("Good Day" , fontWeight = FontWeight.SemiBold , fontSize = 18.sp)
                 Text("20g")
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -104,17 +115,21 @@ fun DetailScreen(
                 ) {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "Informasi Nutrisi"
+                        text = "Informasi Nutrisi",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold
                     )
+                    Spacer(modifier = Modifier.height(16.dp))
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(100.dp)
-                                .background(Color.Red)
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
+//                        CircularProgressIndicator(
+//                            modifier = Modifier.width(60.dp),
+//                            color = MaterialTheme.colorScheme.secondary,
+//                            trackColor = MaterialTheme.colorScheme.surfaceVariant,
+//                        )
+                        CardGrade(value = "A")
+                        Spacer(modifier = Modifier.width(16.dp))
                         Text(
                             modifier = Modifier.fillMaxHeight(),
                             text = "Kurang sehat,batasi konsums Produk in lebih tinggi kalori gula,garam atau lemak jenuh dan sebaiknya dikonsumsi secara terbatas"
@@ -132,48 +147,55 @@ fun DetailScreen(
                     .clip(
                         RoundedCornerShape(8.dp)
                     )
-                    .background(Color.Green)
+                    .background(GreenPrimary)
+
                     .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "Nutrisi dalam 50g")
+                Text(text = "Nutrisi dalam 50g", color= Color.White)
             }
             Spacer(modifier = Modifier.width(8.dp))
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(Color.Green)
+                    .background(GreenPrimary)
                     .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "Nutrisi dalam 100g")
+                Text(text = "Nutrisi dalam 100g" ,  color= Color.White)
             }
         }
         Row {
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 Column(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Lemak")
                     CustomLinearProgressIndicator(
+                        progressColor = LemakBg,
+                        progress = 1f,
                         modifier = Modifier,
-                        progress = 1f
-                    )
+
+                        )
                 }
                 Column {
                     Text(text = "Karbo")
                     CustomLinearProgressIndicator(
+                        progressColor = CarboBg,
                         progress = 0.5f
                     )
                 }
                 Column {
                     Text(text = "Serat")
                     CustomLinearProgressIndicator(
-                        progress = 0.5f
-                    )
+                        progress = 0.5f,
+                        progressColor = SeratBg,
+
+
+                        )
                 }
             }
             Spacer(modifier = Modifier.width(16.dp))
@@ -183,19 +205,24 @@ fun DetailScreen(
                 Column {
                     Text(text = "Protein")
                     CustomLinearProgressIndicator(
-                        progress = 0.5f
+                        progress = 0.5f,
+                        progressColor = ProteinBg
                     )
                 }
                 Column {
                     Text(text = "Garam")
                     CustomLinearProgressIndicator(
-                        progress = 0.5f
+                        progress = 0.5f,
+                        progressColor = GaramBg
+
                     )
                 }
                 Column {
                     Text(text = "Gula")
                     CustomLinearProgressIndicator(
+                        progressColor = GulaBg,
                         progress = 0.5f,
+
                     )
                 }
             }
