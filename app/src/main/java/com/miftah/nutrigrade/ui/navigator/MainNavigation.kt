@@ -46,7 +46,7 @@ fun MainNavigation(
                 .fillMaxSize(),
             color = Color(0xffF6F6F6)
         ) {
-            NavHost(navController = navController, startDestination = Route.ProfileScreen.route) {
+            NavHost(navController = navController, startDestination = Route.OnBoardingScreen.route) {
                 composable(route = Route.HomeScreen.route) {
                     HomeScreen(
                     )
