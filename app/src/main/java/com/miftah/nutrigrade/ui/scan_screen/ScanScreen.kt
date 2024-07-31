@@ -42,6 +42,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -129,29 +130,29 @@ fun ScanScreen(
     LaunchedEffect(lensFacing) {
         controller.setCameraSelector(cameraSelector)
     }
-
-    BottomSheetScaffold(
-        scaffoldState = scaffoldState,
-        sheetContent = {
-            if (uri != null) {
-                TextField(value = state.title, onValueChange = {
+    CameraX(
+        controller = controller, modifier = Modifier
+            .fillMaxSize()
+    )
+    if (uri != null) {
+        BottomSheetScaffold(
+            scaffoldState = scaffoldState,
+            sheetContent = {
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.title, onValueChange = {
                     onEvent(ScanEvent.EditText(it))
                 })
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                    onEvent(ScanEvent.ScanToCLod(uri!!, context))
-                }) {
+                        onEvent(ScanEvent.ScanToCLod(uri!!, context))
+                    }) {
                     Text(text = "Send")
                 }
             }
-        }) {
-        CameraX(
-            controller = controller, modifier = Modifier
-                .fillMaxSize()
-        )
-        Box(modifier = modifier.fillMaxSize()) {
+        ) {
             bitmap?.let {
                 Image(
                     modifier = Modifier.fillMaxSize(),
@@ -159,85 +160,82 @@ fun ScanScreen(
                     contentDescription = null
                 )
             }
-            if (uri == null) {
-                CameraX(
-                    controller = controller, modifier = Modifier
-                        .fillMaxSize()
-                        .align(Alignment.Center)
-                )
-                Row(
+        }
+    } else {
+        Box(modifier = modifier.fillMaxSize()) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                IconButton(
                     modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    IconButton(
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primary),
-                        onClick = {
-                            launcherGallery.launch("image/*")
-                        }) {
-                        Icon(imageVector = Icons.Default.Home, contentDescription = null)
-                    }
-                    IconButton(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primary),
-                        onClick = {
-                            takePhoto(controller, context) {
-                                uri = saveBitmapToFile(context, it)
-                            }
-                        }) {
-                        Icon(imageVector = Icons.Default.Home, contentDescription = null)
-                    }
-                    IconButton(
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primary),
-                        onClick = {
-                            takePhoto(controller, context) {
-                                lensFacing =
-                                    if (lensFacing == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
-                            }
-                        }) {
-                        Icon(imageVector = Icons.Default.Home, contentDescription = null)
-                    }
+                        .padding(10.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary),
+                    onClick = {
+                        launcherGallery.launch("image/*")
+                    }) {
+                    Icon(imageVector = Icons.Default.Home, contentDescription = null)
                 }
-            }
-            state.imageState?.collectAsState(initial = null)?.value.let { data ->
-                when (data) {
-                    is UiState.Error -> {
-                        Toast.makeText(context, "ERR", Toast.LENGTH_SHORT).show()
-                    }
-
-                    UiState.Loading -> {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .width(64.dp)
-                                .align(Alignment.Center),
-                            color = MaterialTheme.colorScheme.secondary,
-                            trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                        )
-                    }
-
-                    is UiState.Success -> {
-                        Toast.makeText(context, "SCC", Toast.LENGTH_SHORT).show()
-                        navigate(data.data)
-                    }
-
-                    null -> {
-
-                    }
+                IconButton(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary),
+                    onClick = {
+                        takePhoto(controller, context) {
+                            uri = saveBitmapToFile(context, it)
+                        }
+                    }) {
+                    Icon(imageVector = Icons.Default.Home, contentDescription = null)
+                }
+                IconButton(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary),
+                    onClick = {
+                        takePhoto(controller, context) {
+                            lensFacing =
+                                if (lensFacing == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
+                        }
+                    }) {
+                    Icon(imageVector = Icons.Default.Home, contentDescription = null)
                 }
             }
         }
     }
+    Box(modifier = Modifier.fillMaxSize()) {
+        state.imageState?.collectAsState(initial = null)?.value.let { data ->
+            when (data) {
+                is UiState.Error -> {
+                    Toast.makeText(context, "ERR", Toast.LENGTH_SHORT).show()
+                }
 
+                UiState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .width(64.dp)
+                            .align(Alignment.Center),
+                        color = MaterialTheme.colorScheme.secondary,
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                    )
+                }
+
+                is UiState.Success -> {
+                    Toast.makeText(context, "SCC", Toast.LENGTH_SHORT).show()
+                    navigate(data.data)
+                }
+
+                null -> {
+
+                }
+            }
+        }
+    }
 }
 
 private fun takePhoto(
