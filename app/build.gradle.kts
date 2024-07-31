@@ -53,6 +53,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.coil.kt.coil.compose)
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.view)
 

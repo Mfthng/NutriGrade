@@ -28,25 +28,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.miftah.nutrigrade.R
 import com.miftah.nutrigrade.ui.theme.CardRedBg
 import com.miftah.nutrigrade.ui.theme.CardRedContent
 
 @Composable
-fun CardBox() {
+fun CardBox(
+
+    productName : String,
+    gradeResult : String = "A",
+
+) {
    Card(
        colors =  CardDefaults.cardColors(
            containerColor = Color(0xFFFFFFFF)
        ),
        modifier = Modifier
            .fillMaxWidth()
+           .padding(vertical = 4.dp)
            .height(IntrinsicSize.Max)
    ){
        Row(
            verticalAlignment = Alignment.CenterVertically,
            modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)
        ){
-           Image(painter = painterResource(id = R.drawable.sampel),
+           AsyncImage(model = "https://asset-a.grid.id/crop/0x0:0x0/700x465/photo/2020/08/07/3243144509.jpeg",
                contentScale = ContentScale.Crop,
                contentDescription = "Card Image" , modifier = Modifier
                    .size(60.dp)
@@ -74,7 +81,7 @@ fun CardBox() {
                   }
               }
 
-             CardGrade(value = "A" )
+             CardGrade(value = gradeResult )
           }
        }
    }
