@@ -182,8 +182,8 @@ fun DetailScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Good Day", fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
-                    Text("20g")
+                    Text(state.scanned!!.productName, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+                    Text(state.scanned.portionSize.toString())
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Row {
@@ -260,7 +260,7 @@ fun DetailScreen(
                         Text(text = "Lemak")
                         CustomLinearProgressIndicator(
                             progressColor = LemakBg,
-                            progress = 1f,
+                            progress = 0.2F,
                             modifier = Modifier,
 
                             )
@@ -269,13 +269,13 @@ fun DetailScreen(
                         Text(text = "Karbo")
                         CustomLinearProgressIndicator(
                             progressColor = CarboBg,
-                            progress = 0.5f
+                            progress = 0.1f
                         )
                     }
                     Column {
                         Text(text = "Serat")
                         CustomLinearProgressIndicator(
-                            progress = 0.5f,
+                            progress = 0.1f,
                             progressColor = SeratBg,
 
 
@@ -289,14 +289,15 @@ fun DetailScreen(
                     Column {
                         Text(text = "Protein")
                         CustomLinearProgressIndicator(
-                            progress = 0.5f,
+                            progress = 0.2f,
                             progressColor = ProteinBg
                         )
                     }
+
                     Column {
                         Text(text = "Garam")
                         CustomLinearProgressIndicator(
-                            progress = 0.5f,
+                            progress = 0.1f,
                             progressColor = GaramBg
 
                         )
@@ -305,13 +306,14 @@ fun DetailScreen(
                         Text(text = "Gula")
                         CustomLinearProgressIndicator(
                             progressColor = GulaBg,
-                            progress = 0.5f,
-
+                            progress = 0.1f,
                             )
                     }
                 }
             }
         }
+        Text("Batas Komsumsi Harian")
+        
     }
 
 

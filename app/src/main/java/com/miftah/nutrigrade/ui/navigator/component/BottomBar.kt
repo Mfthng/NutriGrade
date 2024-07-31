@@ -1,5 +1,6 @@
 package com.miftah.nutrigrade.ui.navigator.component
 
+import com.miftah.nutrigrade.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.BottomAppBarDefaults
@@ -29,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -58,7 +61,7 @@ fun BottomBar(
         BottomBarItemData(drawableId = Icons.Default.Home) {
             navController.navigate(Route.HomeScreen.route)
         },
-        BottomBarItemData(drawableId = Icons.Default.Home) {
+        BottomBarItemData(drawableId = Icons.Default.AccountCircle) {
             navController.navigate(Route.ProfileScreen.route)
         },
     ),
@@ -106,7 +109,7 @@ fun BottomBar(
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(defaultElevation = 0.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.Add,
+                painter  = painterResource(id = R.drawable.scan_image_ic ),
                 contentDescription = null,
                 tint = Color.White,
                 modifier = Modifier.size(fabIconSize)

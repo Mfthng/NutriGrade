@@ -32,15 +32,15 @@ fun HomeScreen(
     Column(
         Modifier.padding(16.dp)
     ) {
+        Text("Home")
         Spacer(modifier = Modifier.height(16.dp))
         LazyRow(
             modifier = Modifier.padding(vertical = 12.dp)
         ) {
-
             item {
                 Image(painter = painterResource(id = R.drawable.news_image) , contentDescription = "image",modifier.fillMaxWidth() )
                 Spacer(modifier = Modifier.width(16.dp))
-                Image(painter = painterResource(id = R.drawable.news_image) , contentDescription = "image",modifier.fillMaxWidth() )
+                Image(painter = painterResource(id = R.drawable.news_image3) , contentDescription = "image",modifier.fillMaxWidth() )
 
             }
         }

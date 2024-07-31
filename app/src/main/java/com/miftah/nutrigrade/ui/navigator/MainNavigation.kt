@@ -56,7 +56,7 @@ fun MainNavigation(
         ) {
             NavHost(
                 navController = navController,
-                startDestination = Route.HomeScreen.route
+                startDestination = Route.OnBoardingScreen.route
             ) {
                 composable(route = Route.HomeScreen.route) {
                     HomeScreen(
