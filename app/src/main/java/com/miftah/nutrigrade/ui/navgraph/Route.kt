@@ -15,6 +15,7 @@ sealed class Route(
 
     data object HomeScreen : Route("home_screen")
     data object OnBoardingScreen : Route("onboarding_screen")
+    data object ProfileScreen : Route("profile_screen")
 
     data object ScanScreen  : Route("scan_screen")
     data object SettingScreen  : Route("setting_screen")

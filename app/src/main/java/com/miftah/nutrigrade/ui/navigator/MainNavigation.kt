@@ -23,6 +23,7 @@ import com.miftah.nutrigrade.ui.home_screen.HomeScreen
 import com.miftah.nutrigrade.ui.navgraph.Route
 import com.miftah.nutrigrade.ui.navigator.component.BottomBar
 import com.miftah.nutrigrade.ui.onboarding_screen.Onboardingscreen
+import com.miftah.nutrigrade.ui.profile_screen.ProfileScreeen
 import com.miftah.nutrigrade.ui.scan_screen.ScanScreen
 import com.miftah.nutrigrade.ui.scan_screen.ScanViewModel
 import com.miftah.nutrigrade.utils.Constanta.SCANNED_DATA
@@ -34,7 +35,7 @@ fun MainNavigation(
 ) {
     Scaffold(
         bottomBar =  {
-            if(navController.currentDestination?.route == Route.HomeScreen.route){
+            if(navController.currentBackStackEntry?.destination?.route == Route.HomeScreen.route){
                 BottomBar()
             }
         }
@@ -45,7 +46,7 @@ fun MainNavigation(
                 .fillMaxSize(),
             color = Color(0xffF6F6F6)
         ) {
-            NavHost(navController = navController, startDestination = Route.OnBoardingScreen.route) {
+            NavHost(navController = navController, startDestination = Route.ProfileScreen.route) {
                 composable(route = Route.HomeScreen.route) {
                     HomeScreen(
                     )
@@ -74,6 +75,19 @@ fun MainNavigation(
                         },
                         onSkipClicked = {                             navController.navigate(Route.HomeScreen.route)
                         })
+                }
+                composable(route = Route.OnBoardingScreen.route){
+                    Onboardingscreen(
+                        onGettingStartedClick = {
+                            navController.navigate(Route.HomeScreen.route)
+                        },
+                        onSkipClicked = {                             navController.navigate(Route.HomeScreen.route)
+                        })
+                }
+                composable(route = Route.ProfileScreen.route){
+                   ProfileScreeen(
+                    modifier = Modifier
+                   )
                 }
                 composable(route = Route.DetailScreen.route) {
                     val dataScan = navController.previousBackStackEntry?.savedStateHandle?.get<Scanned>(

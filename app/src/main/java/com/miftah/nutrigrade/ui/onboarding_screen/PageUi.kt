@@ -56,6 +56,7 @@ fun PageUi(page: Page){
         Text(text = page.description,
             textAlign = TextAlign.Start,fontSize = 14.sp)
 
+
     }
 
 }
