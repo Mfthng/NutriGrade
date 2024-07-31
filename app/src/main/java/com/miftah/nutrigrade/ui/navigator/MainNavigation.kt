@@ -6,6 +6,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -23,11 +24,13 @@ fun MainNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
-    Scaffold { innerPadding ->
+    Scaffold() { innerPadding ->
         Surface(
-            modifier = Modifier.padding(innerPadding)
+
+            modifier = Modifier.padding(innerPadding).fillMaxSize(),
+            color = Color(0xffF6F6F6)
         ) {
-            NavHost(navController = navController, startDestination = Route.ScanScreen.route) {
+            NavHost(navController = navController, startDestination = Route.HomeScreen.route) {
                 composable(route = Route.HomeScreen.route) {
                     HomeScreen()
                 }
