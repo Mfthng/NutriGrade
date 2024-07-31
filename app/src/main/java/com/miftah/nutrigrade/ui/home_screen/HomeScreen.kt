@@ -20,17 +20,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    state: HomeState = HomeState(),
-    onEvent : (HomeEvent) -> Unit
+    state: HomeState = HomeState()
 ) {
     Column(
         Modifier.padding(16.dp)
     ) {
-        Text("Home")
-        Box(){
-
-        }
-
         Text("Riwayat Pemindaian")
         state.history?.collectAsState(initial = null)?.value.let { data ->
             if(data!= null){
@@ -46,9 +40,5 @@ fun HomeScreen(
                 }
             }
         }
-
-
-
-
     }
 }

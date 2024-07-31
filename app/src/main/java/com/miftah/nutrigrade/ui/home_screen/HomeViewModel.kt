@@ -6,9 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.miftah.nutrigrade.domain.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel constructor(
+class HomeViewModel @Inject constructor(
     val repository: Repository
 ) : ViewModel() {
     private val _state = mutableStateOf(HomeState())

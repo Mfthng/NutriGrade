@@ -1,12 +1,15 @@
 package com.miftah.nutrigrade.domain
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.miftah.nutrigrade.core.local.entity.ScanEntity
 import com.miftah.nutrigrade.core.remote.dto.ScanResponse
 import com.miftah.nutrigrade.utils.AppUtils
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Scanned(
     val id : Int = 0,
     val totalCarbs: Int,
@@ -32,7 +35,7 @@ data class Scanned(
     val energy100g: Int,
     val nutriScore: Int,
     val productName: String = ""
-)
+) : Parcelable
 
 fun Scanned.toScannedEntity() : ScanEntity{
     return ScanEntity(

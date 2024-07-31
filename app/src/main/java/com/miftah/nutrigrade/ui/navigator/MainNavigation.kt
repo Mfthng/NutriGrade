@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -19,9 +18,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.miftah.nutrigrade.domain.Scanned
+import com.miftah.nutrigrade.ui.detail_screen.DetailScreen
+import com.miftah.nutrigrade.ui.detail_screen.DetailViewModel
 import com.miftah.nutrigrade.ui.home_screen.HomeScreen
+import com.miftah.nutrigrade.ui.home_screen.HomeViewModel
 import com.miftah.nutrigrade.ui.navgraph.Route
-import com.miftah.nutrigrade.ui.navigator.component.BottomBar
 import com.miftah.nutrigrade.ui.scan_screen.ScanScreen
 import com.miftah.nutrigrade.ui.scan_screen.ScanViewModel
 import com.miftah.nutrigrade.utils.Constanta.SCANNED_DATA
@@ -31,13 +32,8 @@ fun MainNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
-    Scaffold(
-        bottomBar =  {
-            BottomBar()
-        }
-    ) { innerPadding ->
+    Scaffold() { innerPadding ->
         Surface(
-
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
@@ -45,11 +41,13 @@ fun MainNavigation(
         ) {
             NavHost(navController = navController, startDestination = Route.ScanScreen.route) {
                 composable(route = Route.HomeScreen.route) {
+                    val viewModel: HomeViewModel = hiltViewModel()
                     HomeScreen(
+                        state = viewModel.state.value,
                     )
                 }
                 composable(route = Route.ScanScreen.route) {
-                    val viewModel : ScanViewModel = hiltViewModel()
+                    val viewModel: ScanViewModel = hiltViewModel()
 
                     ScanScreen(
                         modifier = Modifier,
@@ -65,16 +63,20 @@ fun MainNavigation(
                     )
                 }
                 composable(route = Route.DetailScreen.route) {
-                    val dataScan = navController.previousBackStackEntry?.savedStateHandle?.get<Scanned>(
-                        SCANNED_DATA
-                    )
-                    Column {
-                        if (dataScan == null){
-                            Text (" no detail ")
-                        } else {
-                            Text(text = dataScan.grade)
+                    val dataScan =
+                        navController.previousBackStackEntry?.savedStateHandle?.get<Scanned>(
+                            SCANNED_DATA
+                        )
+                    val viewModel: DetailViewModel = hiltViewModel()
+
+                    viewModel.setScanned(dataScan!!)
+                    DetailScreen(
+                        onEvent = viewModel::onEvent,
+                        state = viewModel.state.value,
+                        navigate = {
+                            navController.navigate(Route.HomeScreen.route)
                         }
-                    }
+                    )
                 }
             }
         }
