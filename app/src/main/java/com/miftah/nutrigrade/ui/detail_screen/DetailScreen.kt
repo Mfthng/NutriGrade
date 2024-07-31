@@ -183,7 +183,7 @@ fun DetailScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(state.scanned!!.productName, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
-                    Text(state.scanned!!.portionSize.toString())
+                    Text(state.scanned.portionSize.toString())
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Row {
@@ -312,6 +312,8 @@ fun DetailScreen(
                 }
             }
         }
+        Text("Batas Komsumsi Harian")
+        
     }
 
 
