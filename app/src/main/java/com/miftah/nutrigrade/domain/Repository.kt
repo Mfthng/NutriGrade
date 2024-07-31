@@ -36,4 +36,6 @@ class Repository @Inject constructor(
     suspend fun saveData(data : Scanned) = db.scanDao().insertData(data.toScannedEntity())
 
     fun getData() = db.scanDao().getAll()
+
+    fun getDataById(id : Int) = db.scanDao().getDataById(id)
 }
