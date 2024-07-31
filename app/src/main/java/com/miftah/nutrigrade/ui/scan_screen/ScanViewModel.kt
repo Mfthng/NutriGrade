@@ -24,10 +24,15 @@ class ScanViewModel @Inject constructor(
     fun onEvent(scanEvent: ScanEvent) {
         when (scanEvent) {
             is ScanEvent.ScanToCLod -> sendToCloud(scanEvent.data, scanEvent.context)
+            is ScanEvent.EditText -> {
+                _state.value = _state.value.copy(
+                    title = scanEvent.data
+                )
+            }
         }
     }
 
-    fun sendToCloud(uri : Uri, context : Context) {
+    fun sendToCloud(uri: Uri, context: Context) {
         _state.value = _state.value.copy(
             imageState = repository.scanImage(uriToFile(uri, context))
         )
