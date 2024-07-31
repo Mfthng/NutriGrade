@@ -33,6 +33,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.miftah.nutrigrade.ui.navgraph.Route
 import com.miftah.nutrigrade.ui.theme.GreenPrimary
 import com.miftah.nutrigrade.ui.theme.NutriGradeTheme
 
@@ -44,6 +47,7 @@ data class BottomBarItemData(
 
 @Composable
 fun BottomBar(
+    navController: NavHostController,
     barHeight: Dp = 60.dp,
     fabColor: Color = Color(0xFF7980FF),
     fabSize: Dp = 64.dp,
@@ -51,12 +55,16 @@ fun BottomBar(
     cardTopCornerSize: Dp = 24.dp,
     cardElevation: Dp = 8.dp,
     buttons: List<BottomBarItemData> = listOf(
-        BottomBarItemData(drawableId = Icons.Default.Home),
-        BottomBarItemData(drawableId = Icons.Default.Home),
+        BottomBarItemData(drawableId = Icons.Default.Home) {
+            navController.navigate(Route.HomeScreen.route)
+        },
+        BottomBarItemData(drawableId = Icons.Default.Home) {
+            navController.navigate(Route.ProfileScreen.route)
+        },
     ),
     fabOnClick: () -> Unit = {}
 ) {
-    require(buttons.size == 2) { "BottomBar must have exactly 4 buttons" }
+    require(buttons.size == 2) { }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -132,7 +140,7 @@ private fun BottomBarPreview() {
         Surface(
             modifier = Modifier.fillMaxWidth()
         ) {
-            BottomBar()
+//            BottomBar()
         }
     }
 }

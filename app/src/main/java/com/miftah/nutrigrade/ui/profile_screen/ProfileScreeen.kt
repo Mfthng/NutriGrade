@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 
 
 @Composable
-fun ProfileScreeen(
+fun ProfileScreen(
     modifier: Modifier
 ) {
     val message = remember {
