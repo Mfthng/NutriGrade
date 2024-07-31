@@ -35,7 +35,7 @@ fun MainNavigation(
             modifier = Modifier.padding(innerPadding).fillMaxSize(),
             color = Color(0xffF6F6F6)
         ) {
-            NavHost(navController = navController, startDestination = Route.HomeScreen.route) {
+            NavHost(navController = navController, startDestination = Route.ScanScreen.route) {
                 composable(route = Route.HomeScreen.route) {
                     HomeScreen(
 

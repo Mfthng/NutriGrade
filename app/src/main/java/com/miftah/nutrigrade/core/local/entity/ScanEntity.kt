@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class ScanEntity(
     @PrimaryKey(true)
     @ColumnInfo(name = "id")
-    val id : Int = 0,
+    val id: Int = 0,
 
     @ColumnInfo("totalCarbs")
     val totalCarbs: Int,
@@ -74,5 +74,8 @@ data class ScanEntity(
     val energy100g: Int,
 
     @ColumnInfo("nutriScore")
-    val nutriScore: Int
+    val nutriScore: Int,
+
+    @ColumnInfo("productName")
+    val productName: String
 )

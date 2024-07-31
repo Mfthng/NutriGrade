@@ -30,7 +30,8 @@ data class Scanned(
     val protein100g: Int,
     val portionSize100g: String,
     val energy100g: Int,
-    val nutriScore: Int
+    val nutriScore: Int,
+    val productName: String = ""
 )
 
 fun Scanned.toScannedEntity() : ScanEntity{
@@ -56,7 +57,8 @@ fun Scanned.toScannedEntity() : ScanEntity{
         totalFat100g = totalFat100g,
         sodium100g = sodium100g,
         energy100g = energy100g,
-        protein100g = protein100g
+        protein100g = protein100g,
+        productName = productName
     )
 }
 
@@ -83,7 +85,8 @@ fun ScanEntity.toScanned() : Scanned {
         totalFat100g = totalFat100g,
         sodium100g = sodium100g,
         dietaryFiber100g = dietaryFiber100g,
-        sugars100g = sugars100g
+        sugars100g = sugars100g,
+        productName = productName
     )
 }
 
@@ -112,7 +115,7 @@ fun ScanResponse.toScanned() : Scanned {
             totalFat100g = it.portion100g.totalFat,
             sodium100g = it.portion100g.sodium,
             dietaryFiber100g = it.portion100g.dietaryFiber,
-            protein100g = it.portion100g.protein
+            protein100g = it.portion100g.protein,
         )
     }
     return result

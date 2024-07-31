@@ -43,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
@@ -50,6 +51,7 @@ import androidx.navigation.compose.rememberNavController
 import com.miftah.nutrigrade.domain.Scanned
 import com.miftah.nutrigrade.ui.navgraph.Route
 import com.miftah.nutrigrade.ui.navgraph.navigateWithBundle
+import com.miftah.nutrigrade.ui.theme.NutriGradeTheme
 import com.miftah.nutrigrade.utils.Constanta.SCANNED_DATA
 import com.miftah.nutrigrade.utils.UiState
 import com.miftah.nutrigrade.utils.saveBitmapToFile
@@ -57,7 +59,7 @@ import com.miftah.nutrigrade.utils.saveBitmapToFile
 @Composable
 fun ScanScreen(
     modifier: Modifier = Modifier,
-    state: ScanState,
+    state: ScanState = ScanState(),
     onEvent: (ScanEvent) -> Unit,
     navigate: (Scanned) -> Unit
 ) {
@@ -104,8 +106,13 @@ fun ScanScreen(
 
     Box(modifier = modifier.fillMaxSize()) {
         if (uri == null) {
-            CameraX(
+            /*CameraX(
                 controller = controller, modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center)
+            )*/
+            Box(
+                modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.Center)
             )
@@ -156,10 +163,11 @@ fun ScanScreen(
     }
 
     state.imageState?.collectAsState(initial = null)?.value.let { data ->
-        when(data) {
+        when (data) {
             is UiState.Error -> {
                 Toast.makeText(context, "SCC", Toast.LENGTH_SHORT).show()
             }
+
             UiState.Loading -> {
                 CircularProgressIndicator(
                     modifier = Modifier.width(64.dp),
@@ -168,6 +176,7 @@ fun ScanScreen(
                 )
 
             }
+
             is UiState.Success -> {
                 Toast.makeText(context, "SCC", Toast.LENGTH_SHORT).show()
                 Button(
@@ -179,6 +188,7 @@ fun ScanScreen(
 
                 }
             }
+
             null -> {
 
             }
@@ -235,4 +245,15 @@ fun hasPermission(context: Context): Boolean {
 
 object CameraPermission {
     val CAMERAX_PERMISSION = arrayOf(Manifest.permission.CAMERA)
+}
+
+@Preview
+@Composable
+private fun ScanScreenPreview() {
+    NutriGradeTheme {
+        ScanScreen(
+            navigate = {},
+            onEvent = {}
+        )
+    }
 }
