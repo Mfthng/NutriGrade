@@ -33,6 +33,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.miftah.nutrigrade.ui.theme.GreenPrimary
 import com.miftah.nutrigrade.ui.theme.NutriGradeTheme
 
 data class BottomBarItemData(
@@ -60,6 +61,7 @@ fun BottomBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(barHeight + fabSize / 2)
+            .padding(bottom = 35.dp)
     ) {
         Card(
             modifier = Modifier
@@ -92,7 +94,7 @@ fun BottomBar(
                 .align(Alignment.TopCenter),
             onClick = { fabOnClick() },
             shape = CircleShape,
-            containerColor = fabColor,
+            containerColor = GreenPrimary,
             elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(defaultElevation = 0.dp)
         ) {
             Icon(

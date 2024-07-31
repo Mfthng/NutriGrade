@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -20,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.miftah.nutrigrade.domain.Scanned
 import com.miftah.nutrigrade.ui.home_screen.HomeScreen
 import com.miftah.nutrigrade.ui.navgraph.Route
+import com.miftah.nutrigrade.ui.navigator.component.BottomBar
 import com.miftah.nutrigrade.ui.scan_screen.ScanScreen
 import com.miftah.nutrigrade.ui.scan_screen.ScanViewModel
 import com.miftah.nutrigrade.utils.Constanta.SCANNED_DATA
@@ -29,13 +31,19 @@ fun MainNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
-    Scaffold() { innerPadding ->
+    Scaffold(
+        bottomBar =  {
+            BottomBar()
+        }
+    ) { innerPadding ->
         Surface(
 
-            modifier = Modifier.padding(innerPadding).fillMaxSize(),
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
             color = Color(0xffF6F6F6)
         ) {
-            NavHost(navController = navController, startDestination = Route.DetailScreen.route) {
+            NavHost(navController = navController, startDestination = Route.HomeScreen.route) {
                 composable(route = Route.HomeScreen.route) {
                     HomeScreen(
                     )
