@@ -26,19 +26,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.miftah.nutrigrade.R
 import com.miftah.nutrigrade.ui.theme.CardRedBg
 import com.miftah.nutrigrade.ui.theme.CardRedContent
+import com.miftah.nutrigrade.ui.theme.NutriGradeTheme
 
 @Composable
 fun CardBox(
-
     productName : String,
     gradeResult : String = "A",
-
 ) {
    Card(
        colors =  CardDefaults.cardColors(
@@ -85,4 +85,12 @@ fun CardBox(
           }
        }
    }
+}
+
+@Preview
+@Composable
+private fun CardBoxPreview() {
+    NutriGradeTheme {
+        CardBox(productName = "Chitato", gradeResult = "A")
+    }
 }

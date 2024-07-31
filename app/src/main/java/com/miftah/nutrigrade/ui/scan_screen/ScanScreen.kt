@@ -22,12 +22,21 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,8 +50,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
@@ -50,6 +61,7 @@ import androidx.navigation.compose.rememberNavController
 import com.miftah.nutrigrade.domain.Scanned
 import com.miftah.nutrigrade.ui.navgraph.Route
 import com.miftah.nutrigrade.ui.navgraph.navigateWithBundle
+import com.miftah.nutrigrade.ui.theme.NutriGradeTheme
 import com.miftah.nutrigrade.utils.Constanta.SCANNED_DATA
 import com.miftah.nutrigrade.utils.UiState
 import com.miftah.nutrigrade.utils.saveBitmapToFile
@@ -57,7 +69,7 @@ import com.miftah.nutrigrade.utils.saveBitmapToFile
 @Composable
 fun ScanScreen(
     modifier: Modifier = Modifier,
-    state: ScanState,
+    state: ScanState = ScanState(),
     onEvent: (ScanEvent) -> Unit,
     navigate: (Scanned) -> Unit
 ) {
@@ -110,29 +122,46 @@ fun ScanScreen(
                     .align(Alignment.Center)
             )
             Row(
-                modifier = Modifier.align(Alignment.BottomCenter),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Button(onClick = {
-                    launcherGallery.launch("image/*")
-                }) {
-                    Text(text = "Gallery")
+                IconButton(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary),
+                    onClick = {
+                        launcherGallery.launch("image/*")
+                    }) {
+                    Icon(imageVector = Icons.Default.Home, contentDescription = null)
                 }
-                Button(
+                IconButton(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary),
                     onClick = {
                         takePhoto(controller, context) {
                             uri = saveBitmapToFile(context, it)
                         }
                     }) {
-                    Text(text = "Capture")
+                    Icon(imageVector = Icons.Default.Home, contentDescription = null)
                 }
-                Button(
+                IconButton(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary),
                     onClick = {
                         takePhoto(controller, context) {
                             lensFacing =
                                 if (lensFacing == CameraSelector.LENS_FACING_BACK) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
                         }
                     }) {
-                    Text(text = "Change")
+                    Icon(imageVector = Icons.Default.Home, contentDescription = null)
                 }
             }
         } else {
@@ -153,34 +182,37 @@ fun ScanScreen(
                 }
             }
         }
-    }
+        state.imageState?.collectAsState(initial = null)?.value.let { data ->
+            when (data) {
+                is UiState.Error -> {
+                    Toast.makeText(context, "ERR", Toast.LENGTH_SHORT).show()
+                }
 
-    state.imageState?.collectAsState(initial = null)?.value.let { data ->
-        when(data) {
-            is UiState.Error -> {
-                Toast.makeText(context, "SCC", Toast.LENGTH_SHORT).show()
-            }
-            UiState.Loading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.width(64.dp),
-                    color = MaterialTheme.colorScheme.secondary,
-                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                )
+                UiState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .width(64.dp)
+                            .align(Alignment.Center),
+                        color = MaterialTheme.colorScheme.secondary,
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                    )
+                }
 
-            }
-            is UiState.Success -> {
-                Toast.makeText(context, "SCC", Toast.LENGTH_SHORT).show()
-                Button(
-                    modifier = Modifier,
-                    onClick = {
-                        navigate(data.data)
+                is UiState.Success -> {
+                    Toast.makeText(context, "SCC", Toast.LENGTH_SHORT).show()
+                    Button(
+                        modifier = Modifier,
+                        onClick = {
+                            navigate(data.data)
+                        }
+                    ) {
+                        Text(text = "To Detail")
                     }
-                ) {
+                }
+
+                null -> {
 
                 }
-            }
-            null -> {
-
             }
         }
     }
@@ -235,4 +267,15 @@ fun hasPermission(context: Context): Boolean {
 
 object CameraPermission {
     val CAMERAX_PERMISSION = arrayOf(Manifest.permission.CAMERA)
+}
+
+@Preview
+@Composable
+private fun ScanScreenPreview() {
+    NutriGradeTheme {
+        ScanScreen(
+            navigate = {},
+            onEvent = {}
+        )
+    }
 }
