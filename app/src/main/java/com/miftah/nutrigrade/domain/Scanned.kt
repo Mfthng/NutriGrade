@@ -1,12 +1,15 @@
 package com.miftah.nutrigrade.domain
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.miftah.nutrigrade.core.local.entity.ScanEntity
 import com.miftah.nutrigrade.core.remote.dto.ScanResponse
 import com.miftah.nutrigrade.utils.AppUtils
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Scanned(
     val id : Int = 0,
     val totalCarbs: Int,
@@ -20,8 +23,8 @@ data class Scanned(
     val energy: Int,
     val productPhoto: String,
     val grade: String,
-    val warnings: List<String>,
-    val positiveFeedback: List<String>,
+    val warnings: String, // <--
+    val positiveFeedback: String, // <--
     val totalCarbs100g: Int,
     val sodium100g: Int,
     val totalFat100g: Int,
@@ -31,14 +34,14 @@ data class Scanned(
     val portionSize100g: String,
     val energy100g: Int,
     val nutriScore: Int
-)
+) : Parcelable
 
 fun Scanned.toScannedEntity() : ScanEntity{
     return ScanEntity(
         sugars100g = sugars100g,
         grade = grade,
         energy = energy,
-        positiveFeedback = AppUtils.fromListToString(positiveFeedback),
+        positiveFeedback = positiveFeedback,
         sugars = sugars,
         sodium = sodium,
         totalFat = totalFat,
@@ -46,7 +49,7 @@ fun Scanned.toScannedEntity() : ScanEntity{
         dietaryFiber = dietaryFiber,
         totalCarbs = totalCarbs,
         portionSize = portionSize,
-        warnings = AppUtils.fromListToString(warnings),
+        warnings = warnings,
         nutriScore = nutriScore,
         productPhoto = productPhoto,
         cholesterol = cholesterol,
@@ -63,7 +66,7 @@ fun Scanned.toScannedEntity() : ScanEntity{
 fun ScanEntity.toScanned() : Scanned {
     return Scanned(
         portionSize = portionSize,
-        warnings = AppUtils.fromStringToList(warnings),
+        warnings = warnings,
         nutriScore = nutriScore,
         cholesterol = cholesterol,
         productPhoto = productPhoto,
@@ -73,7 +76,7 @@ fun ScanEntity.toScanned() : Scanned {
         totalFat = totalFat,
         sodium = sodium,
         sugars = sugars,
-        positiveFeedback = AppUtils.fromStringToList(positiveFeedback),
+        positiveFeedback = warnings,
         energy = energy,
         grade = grade,
         portionSize100g = portionSize100g,
@@ -94,7 +97,7 @@ fun ScanResponse.toScanned() : Scanned {
             grade = it.grade,
             sugars = it.nutrition.sugars,
             energy = it.nutrition.energy,
-            positiveFeedback = it.positiveFeedback,
+            positiveFeedback = AppUtils.fromListToString(it.positiveFeedback),
             sodium = it.nutrition.sodium,
             totalFat = it.nutrition.totalFat,
             protein = it.nutrition.protein,
@@ -104,7 +107,7 @@ fun ScanResponse.toScanned() : Scanned {
             cholesterol = it.nutrition.cholesterol,
             nutriScore = it.nutriScore,
             portionSize = it.nutrition.portionSize,
-            warnings = it.warnings,
+            warnings = AppUtils.fromListToString(it.warnings),
             sugars100g = it.portion100g.sugars,
             portionSize100g = it.portion100g.portionSize,
             totalCarbs100g = it.portion100g.totalCarbs,

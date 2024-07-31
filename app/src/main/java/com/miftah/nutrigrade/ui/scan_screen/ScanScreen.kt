@@ -6,8 +6,10 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.graphics.Matrix
+import android.graphics.Paint.Align
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -43,6 +45,12 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.miftah.nutrigrade.domain.Scanned
+import com.miftah.nutrigrade.ui.navgraph.Route
+import com.miftah.nutrigrade.ui.navgraph.navigateWithBundle
+import com.miftah.nutrigrade.utils.Constanta.SCANNED_DATA
 import com.miftah.nutrigrade.utils.UiState
 import com.miftah.nutrigrade.utils.saveBitmapToFile
 
@@ -50,7 +58,8 @@ import com.miftah.nutrigrade.utils.saveBitmapToFile
 fun ScanScreen(
     modifier: Modifier = Modifier,
     state: ScanState,
-    onEvent: (ScanEvent) -> Unit
+    onEvent: (ScanEvent) -> Unit,
+    navigate: (Scanned) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -161,6 +170,14 @@ fun ScanScreen(
             }
             is UiState.Success -> {
                 Toast.makeText(context, "SCC", Toast.LENGTH_SHORT).show()
+                Button(
+                    modifier = Modifier,
+                    onClick = {
+                        navigate(data.data)
+                    }
+                ) {
+
+                }
             }
             null -> {
 
