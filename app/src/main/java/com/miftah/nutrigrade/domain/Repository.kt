@@ -32,4 +32,8 @@ class Repository @Inject constructor(
             emit(UiState.Error(e.message()))
         }
     }
+
+    suspend fun saveData(data : Scanned) = db.scanDao().insertData(data.toScannedEntity())
+
+    fun getData() = db.scanDao().getAll()
 }

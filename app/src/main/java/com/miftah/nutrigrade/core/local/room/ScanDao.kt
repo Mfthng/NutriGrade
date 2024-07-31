@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.miftah.nutrigrade.core.local.entity.ScanEntity
+import com.miftah.nutrigrade.domain.Scanned
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,4 +16,7 @@ interface ScanDao{
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertData(data : ScanEntity)
+
+    @Query("SELECT * FROM scan_entity where id = :id")
+    fun getDataById(id : Int) : Flow<Scanned>
 }
