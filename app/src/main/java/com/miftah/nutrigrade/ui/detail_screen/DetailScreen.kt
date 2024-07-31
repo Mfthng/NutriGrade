@@ -69,29 +69,6 @@ fun DetailScreen(
     onEvent: (DetailEvent) -> Unit,
     navigate: () -> Unit
 ) {
-    val scanneding = listOf(
-        GradeClass(
-            grade = "A",
-            text = "Sehat, pilihan baik untuk dikonsumsi karena produk ini memiliki protein yang tinggi atau memiliki sedikit kalori, gula, garam atau lemak."
-        ),
-        GradeClass(
-            grade = "B",
-            text = "Sehat, pilihan baik untuk dikonsumsi. Produk ini memiliki sedikit lebih banyak kalori, gula, garam, atau lemak jenuh, tetapi masih merupakan pilihan yang sehat."
-        ),
-        GradeClass(
-            grade = "C",
-            text = "Sehat, pilihan baik untuk dikonsumsi. Produk ini memiliki sedikit lebih banyak kalori, gula, garam, atau lemak jenuh, perlu pengawasan dan batasan konsumsi."
-        ),
-        GradeClass(
-            grade = "D",
-            text = "Kurang Sehat, batasi konsumsi, produk ini lebih tinggi kalori, gula, garam, atau lemak jenuh dan sebaiknya dikonsumsi secara terbatas."
-        ),
-        GradeClass(
-            grade = "E",
-            text = "Kurang Sehat, batasi konsumsi, produk ini lebih tinggi kalori, gula, garam, atau lemak jenuh dan sebaiknya dikonsumsi secara terbatas."
-        )
-    )
-
     Scaffold(
         bottomBar = {
             Button(
@@ -154,7 +131,7 @@ fun DetailScreen(
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
                     )
-                    Text(state.scanned.portionSize.toString())
+                    Text(state.scanned.portionSize.toString() + " g")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Row {
@@ -178,17 +155,18 @@ fun DetailScreen(
                         Row(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            CardGrade(value = state.scanned!!.grade)
+                            val grade = gradeGenerator(state.scanned!!.grade)
+                            CardGrade(value = grade.grade)
                             Spacer(modifier = Modifier.width(16.dp))
                             Text(
                                 modifier = Modifier.fillMaxHeight(),
-                                text = "Kurang sehat,batasi konsums Produk in lebih tinggi kalori gula,garam atau lemak jenuh dan sebaiknya dikonsumsi secara terbatas"
+                                text = grade.text
                             )
                         }
                     }
                 }
             }
-            Row(
+            /*Row(
                 modifier = Modifier.padding(8.dp)
             ) {
                 Box(
@@ -214,33 +192,53 @@ fun DetailScreen(
                 ) {
                     Text(text = "Nutrisi dalam 100g", color = Color.White)
                 }
-            }
-            Row {
+            }*/
+            Row(
+                modifier = Modifier.padding(16.dp)
+            ) {
                 Column(
                     modifier = Modifier.weight(1f),
                 ) {
                     Column(
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(text = "Lemak")
+                        Row(
+                            modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(text = "Lemak")
+                            Text(text = state.scanned!!.cholesterol.toString() + " g")
+                        }
                         CustomLinearProgressIndicator(
                             progressColor = LemakBg,
-                            progress = 0.2F,
+                            progress = 1F,
                             modifier = Modifier,
 
                             )
                     }
                     Column {
-                        Text(text = "Karbo")
+                        Row(
+                            modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(text = "Karbo")
+                            Text(text = state.scanned!!.totalCarbs.toString() + " g")
+                        }
                         CustomLinearProgressIndicator(
                             progressColor = CarboBg,
-                            progress = 0.1f
+                            progress = 1f
                         )
                     }
                     Column {
-                        Text(text = "Serat")
+                        Row(
+                            modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(text = "Serat")
+                            Text(text = state.scanned!!.dietaryFiber.toString() + " g")
+                        }
                         CustomLinearProgressIndicator(
-                            progress = 0.1f,
+                            progress = 1f,
                             progressColor = SeratBg,
 
 
@@ -252,26 +250,44 @@ fun DetailScreen(
                     modifier = Modifier.weight(1f)
                 ) {
                     Column {
-                        Text(text = "Protein")
+                        Row(
+                            modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(text = "Protein")
+                            Text(text = state.scanned!!.protein.toString() + " g")
+                        }
                         CustomLinearProgressIndicator(
-                            progress = 0.2f,
+                            progress = 1f,
                             progressColor = ProteinBg
                         )
                     }
 
                     Column {
-                        Text(text = "Garam")
+                        Row(
+                            modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(text = "Garam")
+                            Text(text = state.scanned!!.sodium.toString() + " mg")
+                        }
                         CustomLinearProgressIndicator(
-                            progress = 0.1f,
+                            progress = 1f,
                             progressColor = GaramBg
 
                         )
                     }
                     Column {
-                        Text(text = "Gula")
+                        Row(
+                            modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(text = "Gula")
+                            Text(text = state.scanned!!.sugars.toString() + " g")
+                        }
                         CustomLinearProgressIndicator(
                             progressColor = GulaBg,
-                            progress = 0.1f,
+                            progress = 1f,
                         )
                     }
                 }
@@ -279,12 +295,6 @@ fun DetailScreen(
         }
 
     }
-
-
-//    Spacer(modifier = Modifier.height(16.dp))
-
-//    Spacer(modifier = Modifier.height(16.dp))
-
 }
 
 @Composable
@@ -314,6 +324,40 @@ data class GradeClass(
     val grade: String,
     val text: String
 )
+
+fun gradeGenerator(grade: String): GradeClass {
+    return when (grade) {
+        "A" -> GradeClass(
+            grade = "A",
+            text = "Sehat, pilihan baik untuk dikonsumsi karena produk ini memiliki protein yang tinggi atau memiliki sedikit kalori, gula, garam atau lemak."
+        )
+
+        "B" -> GradeClass(
+            grade = "B",
+            text = "Sehat, pilihan baik untuk dikonsumsi. Produk ini memiliki sedikit lebih banyak kalori, gula, garam, atau lemak jenuh, tetapi masih merupakan pilihan yang sehat."
+        )
+
+        "C" -> GradeClass(
+            grade = "C",
+            text = "Sehat, pilihan baik untuk dikonsumsi. Produk ini memiliki sedikit lebih banyak kalori, gula, garam, atau lemak jenuh, perlu pengawasan dan batasan konsumsi."
+        )
+
+        "D" -> GradeClass(
+            grade = "D",
+            text = "Kurang Sehat, batasi konsumsi, produk ini lebih tinggi kalori, gula, garam, atau lemak jenuh dan sebaiknya dikonsumsi secara terbatas."
+        )
+
+        "E" -> GradeClass(
+            grade = "E",
+            text = "Kurang Sehat, batasi konsumsi, produk ini lebih tinggi kalori, gula, garam, atau lemak jenuh dan sebaiknya dikonsumsi secara terbatas."
+        )
+
+        else -> GradeClass(
+            grade = "C",
+            text = "Kurang Sehat, batasi konsumsi, produk ini lebih tinggi kalori, gula, garam, atau lemak jenuh dan sebaiknya dikonsumsi secara terbatas."
+        )
+    }
+}
 
 
 @Preview(showBackground = true)
